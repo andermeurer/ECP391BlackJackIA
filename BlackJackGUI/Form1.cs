@@ -13,13 +13,17 @@ namespace BlackJackGUI
 {
     public partial class Form1 : Form
     {
-        public Deck gameDeck;
+        public Deck gameDeck { get; set; }
+        public Player player { get; set; }
+        public Dealer dealer { get; set; }
 
         public Form1()
         {
             InitializeComponent();
 
             gameDeck = new Deck();
+            player = new Player();
+            dealer = new Dealer();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -28,26 +32,48 @@ namespace BlackJackGUI
 
             panel1.Width = imgDeck.Width;
             panel1.Height = imgDeck.Height;
-            panel1.BackgroundImage = imgDeck;
+            panel1.BackgroundImage = imgDeck;            
         }
 
         private void hitCard()
         {
             Card hittedCard = gameDeck.HitCard();
-            int locationX = (71 * gameDeck.listUsedCards().Count) + 5;
+            int locationX = (71 * player.GetCardList().Count) + 5;
 
             if (hittedCard != null)
             {
-                Image imgCard = Image.FromFile(Application.StartupPath + @"/CardImages/" + hittedCard.ToString() + ".png");
+                #region Carta virada Dealer
+                if (pnlIA.Controls.Count == 0)
+                {
+                    Card hittedCardIA = gameDeck.HitCard();
+
+                    dealer.AddCard(hittedCardIA);
+
+                    Image imgCardIA = hittedCardIA.GetCardImage();
+
+                    PictureBox pbCardImageIA = new PictureBox();
+                    pbCardImageIA.Image = imgCardIA;
+                    pbCardImageIA.Width = imgCardIA.Width;
+                    pbCardImageIA.Height = imgCardIA.Height;
+                    pbCardImageIA.Location = new Point(10, 0);
+
+                    pnlIA.Controls.Add(pbCardImageIA);
+                }
+                #endregion
+
+                player.AddCard(hittedCard);
+
+                Image imgCard = hittedCard.GetCardImage();
 
                 PictureBox pbCardImage = new PictureBox();
                 pbCardImage.Image = imgCard;
                 pbCardImage.Width = imgCard.Width;
                 pbCardImage.Height = imgCard.Height;
                 pbCardImage.Location = new Point(locationX, 0);
+
                 pnlHand.Controls.Add(pbCardImage);
 
-                int cardValueSum = Core.AnalyzeHandValue(gameDeck.listUsedCards());
+                int cardValueSum = Core.AnalyzeHandValue(player.GetCardList());
 
                 if (cardValueSum > 21)
                 {
@@ -66,6 +92,9 @@ namespace BlackJackGUI
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             gameDeck = new Deck();
+            player = new Player();
+            dealer = new Dealer();
+
             lblCardSelected.Text = "SOMA: 0";
             btnHitCard.Enabled = true;
             pnlHand.Controls.Clear();

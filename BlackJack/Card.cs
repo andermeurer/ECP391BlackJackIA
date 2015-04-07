@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace BlackJack
 {
@@ -46,6 +48,11 @@ namespace BlackJack
         public override string ToString()
         {
             return String.Format("{0}{1}", cardnum, naipe);
+        }
+
+        public Image GetCardImage()
+        {
+            return Image.FromFile(Application.StartupPath + @"/CardImages/" + this.ToString() + ".png");
         }
 
         internal NaipeType naipe { get; set; }
