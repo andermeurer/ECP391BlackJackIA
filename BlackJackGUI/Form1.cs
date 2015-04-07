@@ -22,20 +22,8 @@ namespace BlackJackGUI
             gameDeck = new Deck();
         }
 
-        private void ListHitCards()
-        {
-            listBSelectedCards.Items.Clear();
-
-            foreach (Card card in gameDeck.listUsedCards())
-            {
-                listBSelectedCards.Items.Add(card.ToString());
-            }
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-            ListHitCards();
-
             Image imgDeck = Image.FromFile(Application.StartupPath + @"/CardImages/VersoAzul.png");
 
             panel1.Width = imgDeck.Width;
@@ -52,12 +40,12 @@ namespace BlackJackGUI
             {
                 Image imgCard = Image.FromFile(Application.StartupPath + @"/CardImages/" + hittedCard.ToString() + ".png");
 
-                Panel newCardPanel = new Panel();
-                newCardPanel.Width = imgCard.Width;
-                newCardPanel.Height = imgCard.Height;
-                newCardPanel.BackgroundImage = imgCard;
-                newCardPanel.Location = new Point(locationX, 175);
-                this.Controls.Add(newCardPanel);
+                PictureBox pbCardImage = new PictureBox();
+                pbCardImage.Image = imgCard;
+                pbCardImage.Width = imgCard.Width;
+                pbCardImage.Height = imgCard.Height;
+                pbCardImage.Location = new Point(locationX, 0);
+                pnlHand.Controls.Add(pbCardImage);
 
                 int cardValueSum = Core.AnalyzeHandValue(gameDeck.listUsedCards());
 
@@ -67,7 +55,6 @@ namespace BlackJackGUI
                 }
 
                 lblCardSelected.Text = String.Format("SOMA: {0}", cardValueSum);
-                ListHitCards();
             }
         }
 
@@ -78,12 +65,11 @@ namespace BlackJackGUI
 
         private void btnNewGame_Click(object sender, EventArgs e)
         {
-            panel2.Invalidate();
             gameDeck = new Deck();
             lblCardSelected.Text = "SOMA: 0";
             btnHitCard.Enabled = true;
-
-            ListHitCards();
+            pnlHand.Controls.Clear();
+            pnlIA.Controls.Clear();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

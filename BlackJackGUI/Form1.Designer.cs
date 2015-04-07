@@ -32,8 +32,8 @@
             this.btnHitCard = new System.Windows.Forms.Button();
             this.btnNewGame = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listBSelectedCards = new System.Windows.Forms.ListBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlHand = new System.Windows.Forms.Panel();
+            this.pnlIA = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // lblCardSelected
@@ -75,35 +75,28 @@
             this.panel1.TabIndex = 5;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // listBSelectedCards
+            // pnlHand
             // 
-            this.listBSelectedCards.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBSelectedCards.Enabled = false;
-            this.listBSelectedCards.FormattingEnabled = true;
-            this.listBSelectedCards.Location = new System.Drawing.Point(448, 107);
-            this.listBSelectedCards.Name = "listBSelectedCards";
-            this.listBSelectedCards.Size = new System.Drawing.Size(179, 182);
-            this.listBSelectedCards.TabIndex = 4;
-            this.listBSelectedCards.Visible = false;
-            this.listBSelectedCards.SelectedIndexChanged += new System.EventHandler(this.listBSelectedCards_SelectedIndexChanged);
+            this.pnlHand.Location = new System.Drawing.Point(25, 174);
+            this.pnlHand.Name = "pnlHand";
+            this.pnlHand.Size = new System.Drawing.Size(828, 121);
+            this.pnlHand.TabIndex = 8;
             // 
-            // panel2
+            // pnlIA
             // 
-            this.panel2.Location = new System.Drawing.Point(648, 107);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(71, 96);
-            this.panel2.TabIndex = 6;
-            this.panel2.Visible = false;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            this.pnlIA.Location = new System.Drawing.Point(106, 14);
+            this.pnlIA.Name = "pnlIA";
+            this.pnlIA.Size = new System.Drawing.Size(747, 112);
+            this.pnlIA.TabIndex = 9;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1028, 701);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pnlIA);
+            this.Controls.Add(this.pnlHand);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.listBSelectedCards);
             this.Controls.Add(this.btnNewGame);
             this.Controls.Add(this.btnHitCard);
             this.Controls.Add(this.lblCardSelected);
@@ -121,8 +114,8 @@
         private System.Windows.Forms.Button btnHitCard;
         private System.Windows.Forms.Button btnNewGame;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListBox listBSelectedCards;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnlHand;
+        private System.Windows.Forms.Panel pnlIA;
 
     }
 }
