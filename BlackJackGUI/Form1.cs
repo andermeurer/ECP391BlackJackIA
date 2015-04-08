@@ -59,19 +59,18 @@ namespace BlackJackGUI
 
                 if (cardValueSum > 21)
                 {
-                    //if (true /*dealerturn == 21 || dealerturn <= 21 || 
-                    //          * (dealerturn > 21 && 21 - dealerturn < 21 - playerturn)*/)
-                    //{
+                    if (dealer.Play(gameDeck, player, dealer))
+                    {
                         btnHitCard.Enabled = false;
                         MessageBox.Show("Fim de jogo. Você perdeu!");
                         this.NewGame();
-                    //}
-                    //else
-                    //{
-                    //    btnHitCard.Enabled = false;
-                    //    MessageBox.Show("Fim de jogo. Você venceu!");
-                    //    this.NewGame();
-                    //}
+                    }
+                    else
+                    {
+                        btnHitCard.Enabled = false;
+                        MessageBox.Show("Fim de jogo. Você venceu!");
+                        this.NewGame();
+                    }
                 }
                 else if (cardValueSum == 21)
                 {

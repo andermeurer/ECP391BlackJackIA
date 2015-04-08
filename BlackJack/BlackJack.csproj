@@ -80,6 +80,7 @@
     <Compile Include="Dealer.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Enumerator\CardNumType.cs" />
+    <Compile Include="Enumerator\DecisionType.cs" />
     <Compile Include="Enumerator\Extension\CardValueAttr.cs" />
     <Compile Include="Enumerator\NaipeType.cs" />
     <Compile Include="Player.cs" />
