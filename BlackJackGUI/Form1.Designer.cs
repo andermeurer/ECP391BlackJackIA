@@ -30,7 +30,7 @@
         {
             this.lblCardSelected = new System.Windows.Forms.Label();
             this.btnHitCard = new System.Windows.Forms.Button();
-            this.btnNewGame = new System.Windows.Forms.Button();
+            this.btnParar = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnlHand = new System.Windows.Forms.Panel();
             this.pnlIA = new System.Windows.Forms.Panel();
@@ -57,15 +57,15 @@
             this.btnHitCard.UseVisualStyleBackColor = true;
             this.btnHitCard.Click += new System.EventHandler(this.button1_Click);
             // 
-            // btnNewGame
+            // btnParar
             // 
-            this.btnNewGame.Location = new System.Drawing.Point(106, 132);
-            this.btnNewGame.Name = "btnNewGame";
-            this.btnNewGame.Size = new System.Drawing.Size(75, 23);
-            this.btnNewGame.TabIndex = 3;
-            this.btnNewGame.Text = "Novo Jogo";
-            this.btnNewGame.UseVisualStyleBackColor = true;
-            this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
+            this.btnParar.Location = new System.Drawing.Point(106, 132);
+            this.btnParar.Name = "btnParar";
+            this.btnParar.Size = new System.Drawing.Size(75, 23);
+            this.btnParar.TabIndex = 3;
+            this.btnParar.Text = "Parar";
+            this.btnParar.UseVisualStyleBackColor = true;
+            this.btnParar.Click += new System.EventHandler(this.btnParar_Click);
             // 
             // panel1
             // 
@@ -84,9 +84,9 @@
             // 
             // pnlIA
             // 
-            this.pnlIA.Location = new System.Drawing.Point(106, 14);
+            this.pnlIA.Location = new System.Drawing.Point(134, 14);
             this.pnlIA.Name = "pnlIA";
-            this.pnlIA.Size = new System.Drawing.Size(747, 112);
+            this.pnlIA.Size = new System.Drawing.Size(601, 112);
             this.pnlIA.TabIndex = 9;
             // 
             // Form1
@@ -97,7 +97,7 @@
             this.Controls.Add(this.pnlIA);
             this.Controls.Add(this.pnlHand);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.btnNewGame);
+            this.Controls.Add(this.btnParar);
             this.Controls.Add(this.btnHitCard);
             this.Controls.Add(this.lblCardSelected);
             this.Name = "Form1";
@@ -112,10 +112,10 @@
 
         private System.Windows.Forms.Label lblCardSelected;
         private System.Windows.Forms.Button btnHitCard;
-        private System.Windows.Forms.Button btnNewGame;
+        private System.Windows.Forms.Button btnParar;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel pnlHand;
-        private System.Windows.Forms.Panel pnlIA;
+        public System.Windows.Forms.Panel pnlHand;
+        public System.Windows.Forms.Panel pnlIA;
 
     }
 }

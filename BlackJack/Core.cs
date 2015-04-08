@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using BlackJackGUI;
+using System.Diagnostics;
 
 namespace BlackJack
 {
@@ -13,40 +16,32 @@ namespace BlackJack
             int handValue = 0;
             int maxValue = 21;
             
-            List<int> handPossibList = new List<int>();
-
-            // Remove AS da Soma das Cartas
-            List<Card> aceList = cardListHand.Where(item => item.cardnum == Enumerator.CardNumType.AS).ToList();
-
-            foreach (var item in aceList)
-            {
-                cardListHand.Remove(item);
-            }
-
             // Soma das cartas comuns
-            foreach (Card item in cardListHand)
+            foreach (Card item in cardListHand.Where(item => item.cardnum != Enumerator.CardNumType.AS))
             {
                 List<int> values = item.GetValue();
                 handValue += values.First();
             }
 
-            // 8 + 3 = 11
-            if (aceList.Count > 0)
+            foreach (Card item in cardListHand.Where(item => item.cardnum == Enumerator.CardNumType.AS))
             {
-                foreach (var item in aceList)
+                if (handValue + 11 <= maxValue)
                 {
-                    if (handValue + 11 <= maxValue)
-                    {
-                        handValue += 11;
-                    }
-                    else
-                    {
-                        handValue += 1;
-                    }
+                    handValue += 11;
+                }
+                else
+                {
+                    handValue += 1;
                 }
             }
 
             return handValue;
+        }
+
+
+        internal static bool AnalyzeIAValue(List<Card> list)
+        {
+            throw new NotImplementedException();
         }
     }
 }

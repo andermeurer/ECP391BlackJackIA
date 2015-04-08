@@ -19,5 +19,10 @@ namespace BlackJack
         {
             CardList.Add(card);
         }
+
+        public int GetHandValue()
+        {
+            return Core.AnalyzeHandValue(CardList);
+        }
     }
 }

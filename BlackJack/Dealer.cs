@@ -19,5 +19,41 @@ namespace BlackJack
         {
             CardList.Add(card);
         }
+
+        public int GetHandValue()
+        {
+            return Core.AnalyzeHandValue(CardList);
+        }
+
+        public bool Play(Deck deck, Player player, Dealer dealer)
+        {
+            bool continueHit = true;
+
+            if (player.GetHandValue() == 21)
+            {
+                while (dealer.GetHandValue() < 21)
+                {
+                    dealer.AddCard(deck.HitCard());
+                }
+
+                if (dealer.GetHandValue() > 21)
+                    return false;
+            }
+            else
+            {
+                
+                while (dealer.GetHandValue() < 21 && continueHit)
+                {
+                    dealer.AddCard(deck.HitCard());
+                    continueHit = Core.AnalyzeIAValue(dealer.GetCardList());
+                }
+
+                if (dealer.GetHandValue() < player.GetHandValue())
+                    return false;
+
+            }
+
+            return true;
+        }
     }
 }

@@ -32,13 +32,12 @@ namespace BlackJackGUI
 
             panel1.Width = imgDeck.Width;
             panel1.Height = imgDeck.Height;
-            panel1.BackgroundImage = imgDeck;            
+            panel1.BackgroundImage = imgDeck;
         }
 
         private void hitCard()
         {
             Card hittedCard = gameDeck.HitCard();
-            int locationX = (71 * player.GetCardList().Count) + 5;
 
             if (hittedCard != null)
             {
@@ -46,41 +45,53 @@ namespace BlackJackGUI
                 if (pnlIA.Controls.Count == 0)
                 {
                     Card hittedCardIA = gameDeck.HitCard();
-
                     dealer.AddCard(hittedCardIA);
-
-                    Image imgCardIA = hittedCardIA.GetCardImage();
-
-                    PictureBox pbCardImageIA = new PictureBox();
-                    pbCardImageIA.Image = imgCardIA;
-                    pbCardImageIA.Width = imgCardIA.Width;
-                    pbCardImageIA.Height = imgCardIA.Height;
-                    pbCardImageIA.Location = new Point(10, 0);
-
-                    pnlIA.Controls.Add(pbCardImageIA);
+                    GameBoard.DealerHand(dealer.GetCardList());
                 }
                 #endregion
 
                 player.AddCard(hittedCard);
-
-                Image imgCard = hittedCard.GetCardImage();
-
-                PictureBox pbCardImage = new PictureBox();
-                pbCardImage.Image = imgCard;
-                pbCardImage.Width = imgCard.Width;
-                pbCardImage.Height = imgCard.Height;
-                pbCardImage.Location = new Point(locationX, 0);
-
-                pnlHand.Controls.Add(pbCardImage);
+                GameBoard.PlayerHand(player.GetCardList());
 
                 int cardValueSum = Core.AnalyzeHandValue(player.GetCardList());
 
+                lblCardSelected.Text = String.Format("SOMA: {0}", cardValueSum);
+
                 if (cardValueSum > 21)
                 {
-                    btnHitCard.Enabled = false;
+                    //if (true /*dealerturn == 21 || dealerturn <= 21 || 
+                    //          * (dealerturn > 21 && 21 - dealerturn < 21 - playerturn)*/)
+                    //{
+                        btnHitCard.Enabled = false;
+                        MessageBox.Show("Fim de jogo. Você perdeu!");
+                        this.NewGame();
+                    //}
+                    //else
+                    //{
+                    //    btnHitCard.Enabled = false;
+                    //    MessageBox.Show("Fim de jogo. Você venceu!");
+                    //    this.NewGame();
+                    //}
                 }
+                else if (cardValueSum == 21)
+                {
+                    if (dealer.Play(gameDeck, player, dealer))
+                    {
+                        GameBoard.DealerHand(dealer.GetCardList());
 
-                lblCardSelected.Text = String.Format("SOMA: {0}", cardValueSum);
+                        btnHitCard.Enabled = false;
+                        MessageBox.Show("Fim de jogo. Ninguem venceu!");
+                        this.NewGame();
+                    }
+                    else
+                    {
+                        GameBoard.DealerHand(dealer.GetCardList());
+
+                        btnHitCard.Enabled = false;
+                        MessageBox.Show("Fim de jogo.Você ganhou!");
+                        this.NewGame();
+                    }
+                }
             }
         }
 
@@ -89,7 +100,13 @@ namespace BlackJackGUI
             hitCard();
         }
 
-        private void btnNewGame_Click(object sender, EventArgs e)
+        private void btnParar_Click(object sender, EventArgs e)
+        {
+            dealer.Play(gameDeck, player, dealer);
+            GameBoard.DealerHand(dealer.GetCardList());
+        }
+
+        private void NewGame()
         {
             gameDeck = new Deck();
             player = new Player();
