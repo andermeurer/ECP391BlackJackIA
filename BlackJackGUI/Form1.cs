@@ -61,17 +61,39 @@ namespace BlackJackGUI
 
                 if (cardValueSum > 21)
                 {
+
                     if (dealer.Play(gameDeck, player, dealer))
                     {
+                        GameBoard.DealerHand(this, dealer.GetCardList());
+
                         btnHitCard.Enabled = false;
                         MessageBox.Show("Fim de jogo. Você perdeu!");
                         this.NewGame();
                     }
                     else
                     {
-                        btnHitCard.Enabled = false;
-                        MessageBox.Show("Fim de jogo. Você venceu!");
-                        this.NewGame();
+                        GameBoard.DealerHand(this, dealer.GetCardList());
+
+                        if (player.GetHandValue() < dealer.GetHandValue())
+                        {
+                            btnHitCard.Enabled = false;
+                            MessageBox.Show("Fim de jogo. Você venceu!");
+                            this.NewGame();
+                        }
+
+                        else if (player.GetHandValue() == dealer.GetHandValue())
+                        {
+                            btnHitCard.Enabled = false;
+                            MessageBox.Show("Fim de jogo. Ninguem venceu!");
+                            this.NewGame();
+                        }
+
+                        else
+                        {
+                            btnHitCard.Enabled = false;
+                            MessageBox.Show("Fim de jogo. Você perdeu!");
+                            this.NewGame();
+                        }
                     }
                 }
                 else if (cardValueSum == 21)

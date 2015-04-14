@@ -69,15 +69,15 @@ namespace BlackJack
         public static bool AnalyzeIAValue(Deck deck, Dealer dealer, int playerCardQtd)
         {
             decimal basePctWinning = 30;
-
+            bool retorno = true;
             while (dealer.GetHandValue() < 17)
             {
                 decimal aggregateWin = 0;
                 var nv = playerCardQtd + dealer.GetCardList().Count;
 
-                for (var i = 21; i >= 17; i--)
+                for (int i = 21; i >= dealer.GetHandValue(); i--)
                 {
-                    int cardValueNeed = i - dealer.GetHandValue();
+                    int cardValueNeed = 21 - dealer.GetHandValue();
 
                     var nx = dealer.GetCardList().Count(o => (int)o.cardnum == cardValueNeed);
 
@@ -86,12 +86,13 @@ namespace BlackJack
                     if (aggregateWin > basePctWinning)
                     {
                         dealer.AddCard(deck.HitCard());
+                        retorno = false;
                         break;
                     }
                 }
             }
 
-            return true;
+            return retorno;
         }
     }
 }
