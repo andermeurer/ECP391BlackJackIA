@@ -46,7 +46,8 @@ namespace BlackJackGUI
                 {
                     Card hittedCardIA = gameDeck.HitCard();
                     dealer.AddCard(hittedCardIA);
-                    GameBoard.DealerHand(dealer.GetCardList());
+
+                    GameBoard.DealerHand(this, dealer.GetCardList());
                 }
                 #endregion
 
@@ -55,7 +56,8 @@ namespace BlackJackGUI
 
                 int cardValueSum = Core.AnalyzeHandValue(player.GetCardList());
 
-                lblCardSelected.Text = String.Format("SOMA: {0}", cardValueSum);
+                //lblCardSelected.Text = String.Format("SOMA: {0}", cardValueSum);
+                GameBoard.PlayerHand(player.GetCardList());
 
                 if (cardValueSum > 21)
                 {
@@ -76,7 +78,7 @@ namespace BlackJackGUI
                 {
                     if (dealer.Play(gameDeck, player, dealer))
                     {
-                        GameBoard.DealerHand(dealer.GetCardList());
+                        GameBoard.DealerHand(this, dealer.GetCardList());
 
                         btnHitCard.Enabled = false;
                         MessageBox.Show("Fim de jogo. Ninguem venceu!");
@@ -84,7 +86,7 @@ namespace BlackJackGUI
                     }
                     else
                     {
-                        GameBoard.DealerHand(dealer.GetCardList());
+                        GameBoard.DealerHand(this, dealer.GetCardList());
 
                         btnHitCard.Enabled = false;
                         MessageBox.Show("Fim de jogo.Você ganhou!");
@@ -101,8 +103,22 @@ namespace BlackJackGUI
 
         private void btnParar_Click(object sender, EventArgs e)
         {
-            dealer.Play(gameDeck, player, dealer);
-            GameBoard.DealerHand(dealer.GetCardList());
+            if (dealer.Play(gameDeck, player, dealer))
+            {
+                GameBoard.DealerHand(this, dealer.GetCardList());
+
+                btnHitCard.Enabled = false;
+                MessageBox.Show("Fim de jogo. Você perdeu!");
+                this.NewGame();
+            }
+            else
+            {
+                GameBoard.DealerHand(this, dealer.GetCardList());
+
+                btnHitCard.Enabled = false;
+                MessageBox.Show("Fim de jogo. Você venceu!");
+                this.NewGame();
+            }                        
         }
 
         private void NewGame()
@@ -110,11 +126,10 @@ namespace BlackJackGUI
             gameDeck = new Deck();
             player = new Player();
             dealer = new Dealer();
-
-            lblCardSelected.Text = "SOMA: 0";
+            
             btnHitCard.Enabled = true;
-            pnlHand.Controls.Clear();
-            pnlIA.Controls.Clear();
+            GameBoard.PlayerHand(player.GetCardList());
+            GameBoard.DealerHand(this, dealer.GetCardList());
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -133,6 +148,11 @@ namespace BlackJackGUI
         }
 
         private void lblCardSelected_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

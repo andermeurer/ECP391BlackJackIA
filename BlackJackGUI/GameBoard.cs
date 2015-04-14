@@ -11,7 +11,6 @@ namespace BlackJackGUI
 {
     public static class GameBoard
     {
-
         public static void PlayerHand(List<Card> cardList)
         {
             var form = (Form1)Form.ActiveForm;
@@ -30,19 +29,18 @@ namespace BlackJackGUI
                 pbCardImage.Location = new Point(locationX, 0);
 
                 form.pnlHand.Controls.Add(pbCardImage);
-            }            
+            }
+
+            form.lblPlayerPts.Text = String.Format("Pontos Jogador: {0}", Core.AnalyzeHandValue(cardList));
         }
 
-        public static void DealerHand(List<Card> cardList)
+        public static void DealerHand(Form1 form, List<Card> cardList)
         {
-            var form = (Form1)Form.ActiveForm;
-
             form.pnlIA.Controls.Clear();
-
-            int locationX = 10;
 
             foreach (var card in cardList)
             {
+                int locationX = (71 * cardList.IndexOf(card)) + 10;
                 Image imgCardIA = card.GetCardImage();
 
                 PictureBox pbCardImageIA = new PictureBox();
@@ -53,6 +51,8 @@ namespace BlackJackGUI
 
                 form.pnlIA.Controls.Add(pbCardImageIA);
             }
+
+            form.lblDealerPts.Text = String.Format("Pontos Dealer: {0}", Core.AnalyzeHandValue(cardList));
         }
     }
 }

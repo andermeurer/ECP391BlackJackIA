@@ -45,10 +45,11 @@ namespace BlackJack
                 while (dealer.GetHandValue() < 21 && continueHit)
                 {
                     dealer.AddCard(deck.HitCard());
-                    continueHit = Core.AnalyzeIAValue(dealer, player.GetCardList().Count);
+                    continueHit = Core.AnalyzeIAValue(deck, dealer, player.GetCardList().Count);
                 }
 
-                if (dealer.GetHandValue() < player.GetHandValue())
+                if (dealer.GetHandValue() < player.GetHandValue() ||
+                    dealer.GetHandValue() > 21)
                     return false;
 
             }

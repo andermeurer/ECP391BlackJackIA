@@ -58,64 +58,38 @@ namespace BlackJack
             return handValue;
         }
 
-
-        public static bool AnalyzeIAValue(Dealer dealer, int playerCardQtd)
+        public static decimal getValueChance(int nx, int nv, int cardValue)
         {
-            // Estratégia padrão de jogador
-            // http://www.x121.com/gamblingstrategy/vegas-strip-MG-strategy.gif
+            if (cardValue != 10)
+                return ((4 - Convert.ToDecimal(nx)) / (52 - Convert.ToDecimal(nv))) * 100;
+            else
+                return ((16 - Convert.ToDecimal(nx)) / (52 - Convert.ToDecimal(nv))) * 100;
+        }
 
-            Deck deck = new Deck();
-            Dictionary<List<Card>, int> combinacaoesValueDict = new Dictionary<List<Card>, int>();
-            Int64 combinacoesPlayer = deck.listCards().Count;
+        public static bool AnalyzeIAValue(Deck deck, Dealer dealer, int playerCardQtd)
+        {
+            decimal basePctWinning = 30;
 
-            // Combinação Matemática
-            // http://pt.wikipedia.org/wiki/Combina%C3%A7%C3%A3o_%28matem%C3%A1tica%29
-            for (int i = deck.listCards().Count - playerCardQtd; i < deck.listCards().Count; i++)
+            while (dealer.GetHandValue() < 17)
             {
-                combinacoesPlayer = combinacoesPlayer * i;
-            }
+                decimal aggregateWin = 0;
+                var nv = playerCardQtd + dealer.GetCardList().Count;
 
-            while (combinacaoesValueDict.Count < combinacoesPlayer)
-            {
-                deck = new Deck();
-                List<Card> newlistCardKey = new List<Card>();
-
-                for (int i = 0; i < playerCardQtd; i++)
+                for (var i = 21; i >= 17; i--)
                 {
-                    newlistCardKey.Add(deck.HitCard());
-                }
+                    int cardValueNeed = i - dealer.GetHandValue();
 
-                if (combinacaoesValueDict.Keys.Count > 0)
-                {
-                    int matchHits = 0;
-                    // Loop em todas as chaves ja adicionadas
-                    foreach (var listCardKey in combinacaoesValueDict.Keys)
+                    var nx = dealer.GetCardList().Count(o => (int)o.cardnum == cardValueNeed);
+
+                    aggregateWin += Core.getValueChance(nx, nv, cardValueNeed);
+
+                    if (aggregateWin > basePctWinning)
                     {
-                        matchHits = 0;
-                        // Valida a nova mao se ja foi inclusa na chave do Dicionario
-                        foreach (var cardKey in newlistCardKey)
-                        {
-                            if (listCardKey.Contains(cardKey))
-                                matchHits++;
-
-                            if (matchHits == newlistCardKey.Count)
-                                break;
-                        }
-
-                        if (matchHits == newlistCardKey.Count)
-                            break;
+                        dealer.AddCard(deck.HitCard());
+                        break;
                     }
-
-                    if (matchHits != newlistCardKey.Count)
-                        combinacaoesValueDict.Add(newlistCardKey, Core.AnalyzeHandValue(newlistCardKey));
-                }
-                else
-                {
-                    combinacaoesValueDict.Add(newlistCardKey, Core.AnalyzeHandValue(newlistCardKey));
                 }
             }
-
-            int handValueIA = dealer.GetHandValue();
 
             return true;
         }
